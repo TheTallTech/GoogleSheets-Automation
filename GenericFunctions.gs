@@ -1,5 +1,4 @@
 var GOOGLEDRIVEFOLDERID = 'The ID of the Google Drive Folder you wish for the CSV copy to be saved.';
-var DAYSTOKEEPBACKUPS = 20;
 
 function createCSV() {
   // You can define mutliple calls to the saveSheetAsCSV function within this createCSV function as long as the sheets exist within this Google Sheets.
