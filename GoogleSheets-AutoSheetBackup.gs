@@ -1,6 +1,13 @@
 //Global variable of how many days to keep backups.
 var DAYSTOKEEPBACKUPS = 20;
 
+function backupMultipleSheets() {
+  backupSheet('Name of sheet to backup.');
+  //backupSheet('Name of sheet to backup.');
+  //backupSheet('Name of sheet to backup.');
+  //backupSheet('Name of sheet to backup.');
+}
+
 function backupSheet(sheetToBackup) {
   //Get todays date and search all sheets for backup sheets, any that are older than number of days global variable then delete
   //Create backup using todays date
