@@ -1,9 +1,10 @@
-# GoogleSheets-To-CSV
-Google Apps Script to save a sheet as a csv and download it automatically using Google Drive for Windows.
+# GoogleSheets-Automation
+Google Apps Scripts to help automate Google Sheets.
 
-Steps to setup:
-1. Go to the Google Apps Script for the Google Sheet you wish to save as a CSV file and create a new blank script file. Delete all auto-generated content within the file.
-2. Copy and paste the contents of GenericFunctions.gs into the new script file you just created and save the file.
-3. Change the two global variables at the top of the script (Folder ID and Days to Keep Backups).
-4. Specify the CSV name and the Google Sheet name in the CreateCSV function. Save your changes then run the createCSV function as it will ask for folder permission the first time.
-5. 
+
+GoogleSheets-AutoCreateCSV.gs
+1. You will need the Google Drive Folder ID of the folder you are saving the csv file to.
+2. You will need to download and install Google Drive for Desktop onto the computer you want your csv files to auto download to. https://www.google.com/drive/download/
+
+GoogleSheets-AutoSheetBackup.gs
+1. You will need to specify how many days worth of sheet backups to keep.
