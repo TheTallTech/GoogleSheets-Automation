@@ -1,7 +1,12 @@
-var GOOGLEDRIVEFOLDERID = '1zriR1Ebo6d-gTbsRZPak5RMWBPd61YPj';
+var GOOGLEDRIVEFOLDERID = 'The ID of the Google Drive Folder you wish for the CSV copy to be saved.';
+var DAYSTOKEEPBACKUPS = 20;
 
 function createCSV() {
-  saveSheetAsCSV("Student_Device_Assignments.csv","Master Device Assignment");
+  // You can define mutliple calls to the saveSheetAsCSV function within this createCSV function as long as the sheets exist within this Google Sheets.
+  saveSheetAsCSV("nameofcsvyouaresaving.csv","nameofsheetyouaregettingcsvdatafrom");
+  //saveSheetAsCSV("nameofcsvyouaresaving.csv","nameofsheetyouaregettingcsvdatafrom");
+  //saveSheetAsCSV("nameofcsvyouaresaving.csv","nameofsheetyouaregettingcsvdatafrom");
+  //saveSheetAsCSV("nameofcsvyouaresaving.csv","nameofsheetyouaregettingcsvdatafrom");
 }
 
 function saveSheetAsCSV(fileName,sheetName) {
@@ -11,10 +16,8 @@ function saveSheetAsCSV(fileName,sheetName) {
   var files = folder.getFilesByName(fileName);
   while(files.hasNext()) {
     var file = files.next();
-    //folder.removeFile(file);
     file.setTrashed(true);
   }
-  
   folder.createFile(fileName,sheetData);
 }
 
@@ -49,10 +52,9 @@ function parseSheetToCSV(sheetName) {
 }
 
 function backupSheet(sheetToBackup) {
-  //var sheetToBackup = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('Testing Master');
-  //Get todays date and search all sheets for backup sheets, any that are older than 7 days delete
+  //Get todays date and search all sheets for backup sheets, any that are older than number of days global variable then delete
   //Create backup using todays date
-  deleteOldBackups(20);
+  deleteOldBackups(DAYSTOKEEPBACKUPS);
   var currentBackup = createDatedSheet('Backup');
   // Copy sheet data to backup sheet
   let maxRows = sheetToBackup.getLastRow();
@@ -69,21 +71,13 @@ function deleteOldBackups(numDaysToKeep) {
   var sheets = activeSS.getSheets();
   for(let i = 0; i < sheets.length; i++) {
     let sheet = sheets[i].getName();
-    //console.log('Sheet name is: ' + sheet);
     if(sheet.includes(sheetName)) {
-      // Check backup sheet date and if older than 7 days delete
+      // Check backup sheet date and if older than number of days global variable then delete
       let backupDateString = sheet.substring(7,17);
       let backupDate = getDateFromString(backupDateString).getTime();
-      //console.log('Backup date string: ' + backupDateString);
       let currentDate = new Date().getTime();
-      //console.log('Sheet to check is: ' + sheet);
-      //console.log('Backup date milliseconds: ' + backupDate);
-      //console.log('Current date milliseconds: ' + currentDate);
-      //console.log('Number of days to keep milliseconds: ' + numDaysMilliseconds);
       var calculation = currentDate - backupDate;
-      //console.log('Current - backup milliseconds: ' + calculation);
       if((currentDate - backupDate) >= numDaysMilliseconds) {
-        //console.log('Sheet to delete is: ' + sheet);
         activeSS.deleteSheet(sheets[i]);
       }
     }
@@ -94,11 +88,7 @@ function getDateFromString(stringDate) {
   let monthInt = parseInt(stringDate.substring(0,2));
   let dayInt = parseInt(stringDate.substring(3,5));
   let yearInt = parseInt(stringDate.substring(6));
-  //console.log("Month " + monthInt);
-  //console.log("Day " + dayInt);
-  //console.log("Year " + yearInt);
   var newDateObject = new Date(yearInt,monthInt-1,dayInt);
-  //console.log("Date object: " + newDateObject);
   return newDateObject;
 }
 
@@ -116,11 +106,9 @@ function formatDate(dateToFormat) {
 }
 
 function createDatedSheet(sheetNameHalf) {
-  //var sheetNameHalf = 'Backup';
   var currentDate = new Date();
   var newSheetName = sheetNameHalf + ' ' + formatDate(currentDate);
   var dynamicSheetName = newSheetName;
-  //SpreadsheetApp.getUi().alert('Sheet to create will have the name: ' + newSheetName);
   var sheetExists = false;
   var dailyCounter = 0;
 
